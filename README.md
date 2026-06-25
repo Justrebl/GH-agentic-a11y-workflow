@@ -159,29 +159,7 @@ The agentic workflows use **GitHub Copilot** as the default AI engine. This requ
 > | Anthropic (Claude) | `ANTHROPIC_API_KEY` | [gh-aw auth docs](https://github.github.com/gh-aw/reference/auth/) |
 > | OpenAI (Codex) | `OPENAI_API_KEY` | [gh-aw auth docs](https://github.github.com/gh-aw/reference/auth/) |
 
-### 5. Allow Network Access to w3.org
-
-The agentic workflows run inside a network firewall that only permits a default
-allowlist of domains. The audit reads WCAG references from **w3.org**, which is
-**not** in the defaults — so you must whitelist it explicitly, otherwise fetches
-to `https://www.w3.org/...` are blocked (and URLs may appear as `(redacted)` in
-the output).
-
-Add a top-level `network` block to each workflow `.md` file
-(`.github/workflows/a11y-pr-review.md` and `a11y-scheduled-audit.md`):
-
-```yaml
-network:
-  allowed:
-    - defaults    # keep the built-in infrastructure allowlist
-    - "w3.org"    # WCAG references (matches www.w3.org and all subdomains)
-```
-
-> A listed domain automatically matches all of its subdomains, so `w3.org`
-> covers `www.w3.org`. After editing the `.md` files, recompile (see next step)
-> so the change is written into the `.lock.yml` files.
-
-### 6. Compile the Agentic Workflows
+### 5. Compile the Agentic Workflows
 
 After forking and configuring secrets, compile the lock files:
 
@@ -198,7 +176,6 @@ The `.lock.yml` files are already committed in this repo. You only need to recom
 - [ ] App installed on the fork (and new permissions accepted if added after install)
 - [ ] `APP_ID` added as repository **variable**
 - [ ] `APP_PRIVATE_KEY` added as repository **secret**
-- [ ] `w3.org` added to the `network.allowed` list in the workflow `.md` files
 - [ ] GitHub Copilot enabled on the account/org
 - [ ] GitHub Actions enabled on the fork
 

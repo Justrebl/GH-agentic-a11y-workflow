@@ -14,6 +14,11 @@ permissions:
   pull-requests: read
   issues: read
 
+network:
+  allowed:
+    - defaults    # keep the built-in infrastructure allowlist
+    - "w3.org"    # WCAG references (matches www.w3.org and all subdomains)
+
 tools:
   github:
     mode: remote
