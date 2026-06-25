@@ -58,15 +58,17 @@ Use GitHub Copilot to **automatically audit** a pull request for accessibility i
 
 ### Steps
 
-1. **Create a Pull Request** from the `feat/new-concerts-near-you-feature` branch into `main`
+1. **Create the `run-a11y-review` label** in your fork — go to **Issues → Labels → New label**, name it exactly `run-a11y-review`, and save. This is the label the workflow listens for, so it must exist before you can apply it.
 
-2. **Add the `run-a11y-review` label** on the PR — this triggers the agentic workflow that performs the accessibility audit
+2. **Create a Pull Request** from the `feat/new-concerts-near-you-feature` branch (the only branch other than `main`) into `main`
 
-3. **Watch the Copilot session** running in the GitHub Actions tab — the agent reviews the changed files against WCAG 2.2 criteria
+3. **Add the `run-a11y-review` label** on the PR — this triggers the agentic workflow that performs the accessibility audit
 
-4. **Check the issues created automatically** once the session ends (approximately 15–20 minutes) — each accessibility violation is filed as an individual issue with severity, WCAG reference, and recommended fix
+4. **Watch the Copilot session** running in the GitHub Actions tab — the agent reviews the changed files against WCAG 2.2 criteria
 
-5. **Assign an issue to the Coding Agent** from the issue panel to trigger an automatic remediation — Copilot will open a PR with the proposed fix
+5. **Check the issues created automatically** once the session ends (approximately 15–20 minutes) — each accessibility violation is filed as an individual issue with severity, WCAG reference, and recommended fix
+
+6. **Assign an issue to the Coding Agent** from the issue panel to trigger an automatic remediation — Copilot will open a PR with the proposed fix
 
 ### What Gets Detected
 
