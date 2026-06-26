@@ -58,15 +58,17 @@ Use GitHub Copilot to **automatically audit** a pull request for accessibility i
 
 ### Steps
 
-1. **Create a Pull Request** from the `feat/new-concerts-near-you-feature` branch into `main`
+1. **Create the `run-a11y-review` label** in your fork — go to **Issues → Labels → New label**, name it exactly `run-a11y-review`, and save. This is the label the workflow listens for, so it must exist before you can apply it.
 
-2. **Add the `run-a11y-review` label** on the PR — this triggers the agentic workflow that performs the accessibility audit
+2. **Create a Pull Request** from the `feat/new-concerts-near-you-feature` branch (the only branch other than `main`) into `main`
 
-3. **Watch the Copilot session** running in the GitHub Actions tab — the agent reviews the changed files against WCAG 2.2 criteria
+3. **Add the `run-a11y-review` label** on the PR — this triggers the agentic workflow that performs the accessibility audit
 
-4. **Check the issues created automatically** once the session ends (approximately 15–20 minutes) — each accessibility violation is filed as an individual issue with severity, WCAG reference, and recommended fix
+4. **Watch the Copilot session** running in the GitHub Actions tab — the agent reviews the changed files against WCAG 2.2 criteria
 
-5. **Assign an issue to the Coding Agent** from the issue panel to trigger an automatic remediation — Copilot will open a PR with the proposed fix
+5. **Check the issues created automatically** once the session ends (approximately 15–20 minutes) — each accessibility violation is filed as an individual issue with severity, WCAG reference, and recommended fix
+
+6. **Assign an issue to the Coding Agent** from the issue panel to trigger an automatic remediation — Copilot will open a PR with the proposed fix
 
 ### What Gets Detected
 
@@ -101,7 +103,10 @@ If you fork this repo, you need to configure a **GitHub App** and a **Copilot to
    | **Contents** | Read | Read source files during audit |
    | **Issues** | Read & Write | Create issues for findings |
    | **Pull requests** | Read & Write | Post review comments on PRs |
+   | **Discussions** | Read & Write | Required by the `safe-outputs` token minted by `gh-aw` |
    | **Metadata** | Read | Required by default |
+
+   > **Why Discussions?** Even though this workflow only posts comments and creates issues, `gh-aw` mints the `safe-outputs` GitHub App token with `discussions: write`. If the App is missing this permission, every run fails with *"The permissions requested are not granted to this installation"* and a follow-up *"Input required and not supplied: github-token"* error. Granting **Discussions: Read & Write** resolves both.
 
 4. Click **Create GitHub App**
 5. Note the **App ID** displayed on the app's settings page
@@ -113,6 +118,8 @@ If you fork this repo, you need to configure a **GitHub App** and a **Copilot to
 2. Select your fork's account/org
 3. Choose **Only select repositories** → pick your fork
 4. Click **Install**
+
+> **Already installed the App before adding a permission?** Permission changes are **not** applied automatically. Go to **Settings → GitHub Apps → Configure** your App and accept the prompt to grant the newly requested permissions (e.g. Discussions) for the repository. Until you accept, token minting keeps failing.
 
 ### 3. Configure Repository Secrets & Variables
 
@@ -165,8 +172,8 @@ The `.lock.yml` files are already committed in this repo. You only need to recom
 
 ### Quick Checklist
 
-- [ ] GitHub App created with Contents (read), Issues (read/write), Pull requests (read/write)
-- [ ] App installed on the fork
+- [ ] GitHub App created with Contents (read), Issues (read/write), Pull requests (read/write), Discussions (read/write)
+- [ ] App installed on the fork (and new permissions accepted if added after install)
 - [ ] `APP_ID` added as repository **variable**
 - [ ] `APP_PRIVATE_KEY` added as repository **secret**
 - [ ] GitHub Copilot enabled on the account/org

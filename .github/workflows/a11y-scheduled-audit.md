@@ -25,6 +25,11 @@ permissions:
   contents: read
   issues: read
 
+network:
+  allowed:
+    - defaults    # keep the built-in infrastructure allowlist
+    - "w3.org"    # WCAG references (matches www.w3.org and all subdomains)
+
 tools:
   github:
     mode: remote
@@ -33,6 +38,7 @@ tools:
       app-id: ${{ vars.APP_ID }}
       private-key: ${{ secrets.APP_PRIVATE_KEY }}
   playwright:
+    mode: cli
   edit:
   bash: ["cat", "ls", "find", "grep", "head", "tail", "wc", "sort", "date"]
   web-fetch:
