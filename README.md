@@ -46,7 +46,7 @@ The app starts on `http://localhost:5173` by default (Vite dev server).
 
 The accessibility rules used by Copilot are defined in [`.github/instructions/a11y.instructions.md`](.github/instructions/a11y.instructions.md). These instructions are based on WCAG 2.2 AA standards and cover semantic HTML, ARIA, keyboard navigation, forms, color contrast, and framework-specific patterns.
 
-> **Keeping instructions up to date:** The community-maintained source of truth is the [awesome-copilot accessibility instructions](https://github.com/github/awesome-copilot/blob/main/instructions/a11y.instructions.md). Check there for the latest updates and contribute improvements.
+> **Keeping custom instructions up to date:** The community-maintained source of truth is the [awesome-copilot accessibility instructions](https://github.com/github/awesome-copilot/blob/main/instructions/a11y.instructions.md). Check there for the latest updates and contribute improvements.
 
 ---
 
@@ -150,7 +150,21 @@ The agentic workflows use **GitHub Copilot** as the default AI engine. This requ
 
 - **GitHub Copilot** enabled on your account/org (Business or Enterprise plan)
 - The repository must have **GitHub Actions** enabled
-- No additional secret is needed — Copilot authentication is handled automatically by the `gh-aw` runtime via the `GITHUB_TOKEN` provided by Actions
+- One of the following methods for the agent to be able to send LLM requests to GH CP : 
+  - **Using User's GHCP License** : A **`COPILOT_GITHUB_TOKEN`** secret holding a Personal Access Token (PAT) with Copilot access — this is what lets any user's PAT drive the demo repo, so it is required for the workflows to run. Below are the recommended permissions for the PAT : 
+      ```yaml 
+      permissions:
+         copilot-requests: read
+      ```
+   - **Recommended for orgs with centralized Copilot billing**: Instead of a PAT secret, set `permissions.copilot-requests: write` in the workflow frontmatter to use GitHub Actions token-based inference (no `COPILOT_GITHUB_TOKEN` needed). This requires your organization to have centralized Copilot billing enabled and may not be available in all organizations — see the [gh-aw billing docs](https://github.github.com/gh-aw/reference/billing/).
+      Grant the `GITHUB_TOKEN` only the minimal permissions the workflow needs:
+      ```yaml
+      permissions:
+      contents: read          # read source files during the audit
+      issues: write           # create issues for findings
+      pull-requests: write    # post review comments on PRs
+      copilot-requests: read # token-based Copilot inference
+      ```
 
 > **Alternative AI engines**: If you want to use a different model, add the corresponding secret and update the workflow configuration:
 >
