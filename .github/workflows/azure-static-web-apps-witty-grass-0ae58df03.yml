@@ -26,6 +26,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WITTY_GRASS_0AE58DF03 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
+          # Named preview environment per pull request (e.g. "pr-12").
+          # Empty on pushes to main, so those deploy to the production environment.
+          deployment_environment: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || '' }}
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "./SamplesAndTest/album-viewer" # App source code path
