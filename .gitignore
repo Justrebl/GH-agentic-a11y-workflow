@@ -31,9 +31,6 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Vite cache
-.vite/
-
 # Misc
 *.log
 .cache/
