@@ -1,5 +1,13 @@
 <template>
-  <div class="album-card" @click="openPreview" tabindex="5">
+  <div
+    class="album-card"
+    role="button"
+    :aria-label="`Open preview for ${album.title}`"
+    tabindex="0"
+    @click="openPreview"
+    @keydown.enter="openPreview"
+    @keydown.space.prevent="openPreview"
+  >
     <div class="album-image">
       <img :src="album.image_url" @error="handleImageError" />
       <div class="play-overlay">
