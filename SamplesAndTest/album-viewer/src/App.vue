@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="header">
+    <header class="header">
       <div class="header-content">
         <div class="title-section">
           <div class="app-title">🎵 Album Collection</div>
@@ -8,9 +8,9 @@
         </div>
         <CartIcon />
       </div>
-    </div>
+    </header>
 
-    <div class="main">
+    <main class="main">
       <div v-if="loading" class="loading">
         <div class="spinner"></div>
       </div>
@@ -28,15 +28,15 @@
           @preview="openPreview"
         />
       </div>
-    </div>
     
-    <CartOverlay />
-    <CheckoutForm />
-    <AlbumPreview :album="previewAlbum" @close="closePreview" />
+      <CartOverlay />
+      <CheckoutForm />
+      <AlbumPreview :album="previewAlbum" @close="closePreview" />
 
-    <div v-if="toast" class="toast" :class="{ 'toast-fade': toastFading }">
-      {{ toast }}
-    </div>
+      <div v-if="toast" class="toast" :class="{ 'toast-fade': toastFading }" role="status" aria-live="polite">
+        {{ toast }}
+      </div>
+    </main>
   </div>
 </template>
 
