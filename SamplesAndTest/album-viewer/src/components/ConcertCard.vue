@@ -1,7 +1,7 @@
 <template>
   <div class="concert-card" :class="{ 'sold-out': concert.availableTickets === 0 }">
     <div class="concert-image">
-      <img :src="concert.image_url" @error="handleImageError" />
+      <img :src="concert.image_url" :alt="`${concert.artist} concert poster`" @error="handleImageError" />
       <div class="distance-badge">{{ concert.distanceKm }} km</div>
       <div v-if="concert.availableTickets === 0" class="sold-out-badge">SOLD OUT</div>
       <div v-else-if="concert.availableTickets <= 10" class="low-tickets-badge">

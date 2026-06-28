@@ -15,7 +15,7 @@
         <div class="cart-items">
           <div v-for="item in cartItems" :key="item.album.id" class="cart-item">
             <div class="item-image">
-              <img :src="item.album.image_url">
+              <img :src="item.album.image_url" :alt="`${item.album.title} album cover`">
             </div>
             <div class="item-details">
               <div style="font-weight: bold; font-size: 0.9rem;">{{ item.album.title }}</div>
