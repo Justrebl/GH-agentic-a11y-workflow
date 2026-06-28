@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="header">
+    <header class="header">
       <div class="header-content">
         <div class="title-section">
           <div class="app-title">🎵 Album Collection</div>
@@ -8,9 +8,9 @@
         </div>
         <CartIcon />
       </div>
-    </div>
+    </header>
 
-    <div class="main">
+    <main class="main">
       <div v-if="loading" class="loading">
         <div class="spinner"></div>
       </div>
@@ -28,7 +28,7 @@
           @preview="openPreview"
         />
       </div>
-    </div>
+    </main>
     
     <CartOverlay />
     <CheckoutForm />
