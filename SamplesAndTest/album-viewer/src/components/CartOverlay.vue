@@ -209,7 +209,7 @@ const openCheckout = () => { cartStore.openCheckout() }
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #4f66d6;
   color: white;
 }
 

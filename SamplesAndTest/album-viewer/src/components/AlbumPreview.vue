@@ -301,22 +301,22 @@ onUnmounted(() => {
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #4f66d6;
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: #5a6fd8;
+  background: #465bc6;
 }
 
 .btn-secondary {
   background: transparent;
-  color: #667eea;
-  border-color: #667eea;
+  color: #4f66d6;
+  border-color: #4f66d6;
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #4f66d6;
   color: #fff;
 }
 
