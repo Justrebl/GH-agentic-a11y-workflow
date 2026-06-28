@@ -34,6 +34,7 @@ The `fix(a11y):` prefix is **load-bearing**, not just a convention:
 
 - **Always** start accessibility fix PR titles with `fix(a11y):` (lowercase, no leading
   space before the colon).
+- **Always** make sure the fix branches are based on the latest `main` branch, and are named like fix/*.
 - **Do not** use this prefix for non-accessibility changes — it suppresses deployment and
   scanning, so unrelated changes would silently not be built or deployed.
 - Keep the rest of the title short, imperative, and descriptive of the specific fix.
