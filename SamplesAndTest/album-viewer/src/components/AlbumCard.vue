@@ -1,5 +1,5 @@
 <template>
-  <div class="album-card" @click="openPreview" tabindex="5">
+  <div class="album-card" @click="openPreview" tabindex="0">
     <div class="album-image">
       <img :src="album.image_url" @error="handleImageError" />
       <div class="play-overlay">
