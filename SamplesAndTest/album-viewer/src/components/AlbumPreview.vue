@@ -4,7 +4,7 @@
       <div class="preview-close" @click="close">×</div>
 
       <div class="preview-body">
-        <img :src="album.image_url" class="preview-cover" @error="handleImageError" />
+        <img :src="album.image_url" :alt="album.title + ' album cover'" class="preview-cover" @error="handleImageError" />
         <div class="preview-info">
           <div class="preview-title">{{ album.title }}</div>
           <div class="preview-artist">{{ album.artist }}</div>
