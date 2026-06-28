@@ -1,16 +1,16 @@
 <template>
   <div class="app">
-    <div class="header">
+    <header class="header">
       <div class="header-content">
         <div class="title-section">
-          <div class="app-title">🎵 Album Collection</div>
-          <div class="app-subtitle">Discover amazing music albums</div>
+          <h1 class="app-title">🎵 Album Collection</h1>
+          <p class="app-subtitle">Discover amazing music albums</p>
         </div>
         <CartIcon />
       </div>
-    </div>
+    </header>
 
-    <div class="main">
+    <main class="main">
       <div v-if="loading" class="loading">
         <div class="spinner"></div>
       </div>
@@ -28,13 +28,13 @@
           @preview="openPreview"
         />
       </div>
-    </div>
+    </main>
     
     <CartOverlay />
     <CheckoutForm />
     <AlbumPreview :album="previewAlbum" @close="closePreview" />
 
-    <div v-if="toast" class="toast" :class="{ 'toast-fade': toastFading }">
+    <div v-if="toast" class="toast" :class="{ 'toast-fade': toastFading }" role="status" aria-live="polite">
       {{ toast }}
     </div>
   </div>
