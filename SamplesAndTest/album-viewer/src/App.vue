@@ -6,7 +6,10 @@
           <div class="app-title">🎵 Album Collection</div>
           <div class="app-subtitle">Discover amazing music albums</div>
         </div>
-        <CartIcon />
+        <div class="header-actions">
+          <WishlistIcon />
+          <CartIcon />
+        </div>
       </div>
     </div>
 
@@ -31,6 +34,7 @@
     </div>
     
     <CartOverlay />
+    <WishlistOverlay />
     <CheckoutForm />
     <AlbumPreview :album="previewAlbum" @close="closePreview" />
 
@@ -47,6 +51,8 @@ import AlbumCard from './components/AlbumCard.vue'
 import AlbumPreview from './components/AlbumPreview.vue'
 import CartIcon from './components/CartIcon.vue'
 import CartOverlay from './components/CartOverlay.vue'
+import WishlistIcon from './components/WishlistIcon.vue'
+import WishlistOverlay from './components/WishlistOverlay.vue'
 import CheckoutForm from './components/CheckoutForm.vue'
 import type { Album } from './types/album'
 
@@ -106,6 +112,12 @@ onMounted(() => {
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .app-title {

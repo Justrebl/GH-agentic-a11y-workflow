@@ -18,13 +18,18 @@
     <div class="album-actions">
       <div class="btn btn-primary" @click.stop="addToCart">🛒</div>
       <div class="btn btn-secondary" @click.stop="openPreview">👁</div>
+      <div class="btn btn-wishlist" :class="{ active: isWishlisted }" @click.stop="toggleWishlist">
+        {{ isWishlisted ? '❤️' : '🤍' }}
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Album } from '../types/album'
 import { useCartStore } from '../stores/cartStore'
+import { useWishlistStore } from '../stores/wishlistStore'
 
 interface Props {
   album: Album
@@ -33,6 +38,9 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits<{ (e: 'preview', album: Album): void }>()
 const cartStore = useCartStore()
+const wishlistStore = useWishlistStore()
+
+const isWishlisted = computed(() => wishlistStore.isWishlisted(props.album.artist))
 
 const handleImageError = (event: Event): void => {
   const target = event.target as HTMLImageElement
@@ -45,6 +53,10 @@ const addToCart = () => {
 
 const openPreview = () => {
   emit('preview', props.album)
+}
+
+const toggleWishlist = () => {
+  wishlistStore.toggleArtist(props.album)
 }
 </script>
 
@@ -164,5 +176,18 @@ const openPreview = () => {
 .btn-secondary:hover {
   background: #667eea;
   color: white;
+}
+
+.btn-wishlist {
+  background: transparent;
+  border: 2px solid #e55;
+}
+
+.btn-wishlist:hover {
+  background: rgba(238, 85, 85, 0.1);
+}
+
+.btn-wishlist.active {
+  background: rgba(238, 85, 85, 0.15);
 }
 </style>
