@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header-content">
         <div class="title-section">
-          <div class="app-title">🎵 Album Collection</div>
+          <h1 class="app-title">🎵 Album Collection</h1>
           <div class="app-subtitle">Discover amazing music albums</div>
         </div>
         <CartIcon />
@@ -115,6 +115,9 @@ onMounted(() => {
   font-size: 3rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  padding: 0;
+  line-height: inherit;
 }
 
 .app-subtitle {
