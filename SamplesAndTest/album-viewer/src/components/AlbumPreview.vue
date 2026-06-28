@@ -208,7 +208,7 @@ onUnmounted(() => {
 .preview-price {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #667eea;
+  color: #4F63D2;
 }
 
 .preview-player {
@@ -225,7 +225,7 @@ onUnmounted(() => {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #667eea;
+  background: #4F63D2;
   color: #fff;
   font-size: 0.8rem;
   cursor: pointer;
@@ -245,7 +245,7 @@ onUnmounted(() => {
 
 .preview-progress-bar {
   height: 100%;
-  background: #667eea;
+  background: #4F63D2;
   transition: width 0.2s linear;
 }
 
@@ -301,22 +301,22 @@ onUnmounted(() => {
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #4F63D2;
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: #5a6fd8;
+  background: #4458C4;
 }
 
 .btn-secondary {
   background: transparent;
-  color: #667eea;
-  border-color: #667eea;
+  color: #4F63D2;
+  border-color: #4F63D2;
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #4F63D2;
   color: #fff;
 }
 

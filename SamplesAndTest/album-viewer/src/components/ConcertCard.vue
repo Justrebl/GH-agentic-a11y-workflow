@@ -165,7 +165,7 @@ const formatDate = (dateStr: string): string => {
 .concert-price {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #667eea;
+  color: #4F63D2;
 }
 
 .concert-actions {
@@ -186,12 +186,12 @@ const formatDate = (dateStr: string): string => {
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #4F63D2;
   color: white;
 }
 
 .btn-primary:hover {
-  background: #5a6fd8;
+  background: #4458C4;
 }
 
 .btn-primary.btn-disabled {
@@ -201,12 +201,12 @@ const formatDate = (dateStr: string): string => {
 
 .btn-secondary {
   background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #4F63D2;
+  border: 2px solid #4F63D2;
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #4F63D2;
   color: white;
 }
 </style>
