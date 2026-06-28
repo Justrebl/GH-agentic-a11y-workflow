@@ -20,11 +20,11 @@
             <div class="item-details">
               <div style="font-weight: bold; font-size: 0.9rem;">{{ item.album.title }}</div>
               <div style="color: #bbb; font-size: 0.8rem;">{{ item.album.artist }}</div>
-              <div style="color: #667eea; font-weight: bold;">${{ item.album.price.toFixed(2) }}</div>
+              <div style="color: #5567d4; font-weight: bold;">${{ item.album.price.toFixed(2) }}</div>
             </div>
             <div class="item-quantity">
               <span class="quantity-btn" @click="decreaseQuantity(item.album.id)">-</span>
-              <span style="color: #667eea; font-weight: bold;">{{ item.quantity }}</span>
+              <span style="color: #5567d4; font-weight: bold;">{{ item.quantity }}</span>
               <span class="quantity-btn" @click="increaseQuantity(item.album.id)">+</span>
             </div>
             <span class="remove-btn" @click="removeFromCart(item.album.id)" title="Delete">🗑</span>
@@ -34,7 +34,7 @@
         <div class="cart-summary">
           <div class="cart-total">
             <span>Total:</span>
-            <span style="color: #667eea;">${{ formattedTotalPrice }}</span>
+            <span style="color: #5567d4;">${{ formattedTotalPrice }}</span>
           </div>
           <div class="btn btn-primary checkout-btn" @click="openCheckout">
             Checkout →
@@ -209,7 +209,7 @@ const openCheckout = () => { cartStore.openCheckout() }
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #5567d4;
   color: white;
 }
 

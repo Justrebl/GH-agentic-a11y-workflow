@@ -80,7 +80,7 @@ watch(
 
 const handleImageError = (event: Event): void => {
   const target = event.target as HTMLImageElement
-  target.src = 'https://via.placeholder.com/400x400/667eea/white?text=Album+Cover'
+  target.src = 'https://via.placeholder.com/400x400/5567d4/white?text=Album+Cover'
 }
 
 const close = () => {
@@ -208,7 +208,7 @@ onUnmounted(() => {
 .preview-price {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #667eea;
+  color: #5567d4;
 }
 
 .preview-player {
@@ -225,7 +225,7 @@ onUnmounted(() => {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #667eea;
+  background: #5567d4;
   color: #fff;
   font-size: 0.8rem;
   cursor: pointer;
@@ -245,7 +245,7 @@ onUnmounted(() => {
 
 .preview-progress-bar {
   height: 100%;
-  background: #667eea;
+  background: #5567d4;
   transition: width 0.2s linear;
 }
 
@@ -301,22 +301,22 @@ onUnmounted(() => {
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #5567d4;
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: #5a6fd8;
+  background: #4758c4;
 }
 
 .btn-secondary {
   background: transparent;
-  color: #667eea;
-  border-color: #667eea;
+  color: #5567d4;
+  border-color: #5567d4;
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #5567d4;
   color: #fff;
 }
 

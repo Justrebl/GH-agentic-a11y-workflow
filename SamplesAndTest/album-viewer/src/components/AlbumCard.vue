@@ -11,7 +11,7 @@
       <div class="album-title">{{ album.title }}</div>
       <div class="album-artist" style="color: #ccc;">{{ album.artist }}</div>
       <div class="album-price">
-        <img :src="`https://placehold.co/80x20/667eea/white?text=$${album.price.toFixed(2)}`" />
+        <img :src="`https://placehold.co/80x20/5567d4/white?text=$${album.price.toFixed(2)}`" />
       </div>
     </div>
     
@@ -36,7 +36,7 @@ const cartStore = useCartStore()
 
 const handleImageError = (event: Event): void => {
   const target = event.target as HTMLImageElement
-  target.src = 'https://via.placeholder.com/300x300/667eea/white?text=Album+Cover'
+  target.src = 'https://via.placeholder.com/300x300/5567d4/white?text=Album+Cover'
 }
 
 const addToCart = () => {
@@ -107,7 +107,7 @@ const openPreview = () => {
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: #667eea;
+  color: #5567d4;
 }
 
 .album-info {
@@ -147,22 +147,22 @@ const openPreview = () => {
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #5567d4;
   color: white;
 }
 
 .btn-primary:hover {
-  background: #5a6fd8;
+  background: #4758c4;
 }
 
 .btn-secondary {
   background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #5567d4;
+  border: 2px solid #5567d4;
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #5567d4;
   color: white;
 }
 </style>

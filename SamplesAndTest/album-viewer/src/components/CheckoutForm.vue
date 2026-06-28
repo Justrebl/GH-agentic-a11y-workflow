@@ -41,7 +41,7 @@
           </div>
           <div class="summary-total">
             <span>Total</span>
-            <span style="color: #667eea;">${{ formattedTotalPrice }}</span>
+            <span style="color: #5567d4;">${{ formattedTotalPrice }}</span>
           </div>
         </div>
 
@@ -202,7 +202,7 @@ onUnmounted(() => {
 }
 
 .form-input:focus {
-  border-color: #667eea;
+  border-color: #5567d4;
 }
 
 .order-summary {
@@ -241,7 +241,7 @@ onUnmounted(() => {
 }
 
 .btn-primary {
-  background: #667eea;
+  background: #5567d4;
   color: white;
 }
 
