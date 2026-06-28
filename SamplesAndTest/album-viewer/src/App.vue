@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="main">
+    <main class="main">
       <div v-if="loading" class="loading">
         <div class="spinner"></div>
       </div>
@@ -30,7 +30,7 @@
       </div>
 
       <ConcertsSection />
-    </div>
+    </main>
     
     <CartOverlay />
     <CheckoutForm />
