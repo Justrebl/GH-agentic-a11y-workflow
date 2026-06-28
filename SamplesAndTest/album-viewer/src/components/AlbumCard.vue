@@ -1,7 +1,7 @@
 <template>
   <div class="album-card" @click="openPreview" tabindex="5">
     <div class="album-image">
-      <img :src="album.image_url" @error="handleImageError" />
+      <img :src="album.image_url" :alt="`${album.title} album cover`" @error="handleImageError" />
       <div class="play-overlay">
         <div class="play-button">▶</div>
       </div>
@@ -11,7 +11,7 @@
       <div class="album-title">{{ album.title }}</div>
       <div class="album-artist" style="color: #ccc;">{{ album.artist }}</div>
       <div class="album-price">
-        <img :src="`https://placehold.co/80x20/667eea/white?text=$${album.price.toFixed(2)}`" />
+        <img :src="`https://placehold.co/80x20/667eea/white?text=$${album.price.toFixed(2)}`" :alt="`$${album.price.toFixed(2)}`" />
       </div>
     </div>
     
