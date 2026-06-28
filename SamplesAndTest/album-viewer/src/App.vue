@@ -3,8 +3,8 @@
     <div class="header">
       <div class="header-content">
         <div class="title-section">
-          <div class="app-title">🎵 Album Collection</div>
-          <div class="app-subtitle">Discover amazing music albums</div>
+          <h1 class="app-title">🎵 Album Collection</h1>
+          <p class="app-subtitle">Discover amazing music albums</p>
         </div>
         <CartIcon />
       </div>
