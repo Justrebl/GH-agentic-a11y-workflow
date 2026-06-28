@@ -11,16 +11,11 @@ on:
 
 jobs:
   build_and_deploy_job:
-    # Skip accessibility fix PRs (titles prefixed with "fix(a11y):") so that deploying an
-    # automated a11y remediation does not re-run the accessibility scanner and open new
-    # fix PRs in an infinite loop. Also skip work-in-progress PRs (titles prefixed with
-    # "[WIP]") so unfinished changes are not built, deployed, or scanned. On push events
-    # the PR title is empty, so the startsWith checks are false and pushes to main still
-    # build and deploy normally.
     if: |
-      (github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed'))
-      && !startsWith(github.event.pull_request.title, 'fix(a11y):')
-      && !startsWith(github.event.pull_request.title, '[WIP]')
+      github.event_name == 'push'
+      || (github.event_name == 'pull_request'
+          && github.event.action != 'closed'
+          && startsWith(github.head_ref, 'feat/'))
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
