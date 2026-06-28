@@ -1,16 +1,16 @@
 <template>
   <div class="app">
-    <div class="header">
+    <header class="header">
       <div class="header-content">
         <div class="title-section">
-          <div class="app-title">🎵 Album Collection</div>
-          <div class="app-subtitle">Discover amazing music albums</div>
+          <h1 class="app-title">🎵 Album Collection</h1>
+          <p class="app-subtitle">Discover amazing music albums</p>
         </div>
         <CartIcon />
       </div>
-    </div>
+    </header>
 
-    <div class="main">
+    <main class="main">
       <div v-if="loading" class="loading">
         <div class="spinner"></div>
       </div>
@@ -28,15 +28,21 @@
           @preview="openPreview"
         />
       </div>
+    </main>
+
+    <div
+      class="toast"
+      :class="{ 'toast-visible': toast, 'toast-fade': toastFading }"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span v-if="toast">{{ toast }}</span>
     </div>
-    
+
     <CartOverlay />
     <CheckoutForm />
     <AlbumPreview :album="previewAlbum" @close="closePreview" />
-
-    <div v-if="toast" class="toast" :class="{ 'toast-fade': toastFading }">
-      {{ toast }}
-    </div>
   </div>
 </template>
 
@@ -112,11 +118,13 @@ onMounted(() => {
   font-size: 3rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
 }
 
 .app-subtitle {
   font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.5);
+  margin: 0;
 }
 
 .main {
@@ -181,10 +189,23 @@ onMounted(() => {
   border-radius: 20px;
   font-size: 0.85rem;
   z-index: 9999;
-  transition: opacity 0.5s;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.toast-visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 .toast-fade {
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toast {
+    transition: opacity 0.5s;
+  }
 }
 </style>
