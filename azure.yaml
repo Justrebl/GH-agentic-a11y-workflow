@@ -8,6 +8,17 @@ infra:
   path: IaC
   module: main
 
+hooks:
+  postprovision:
+    posix:
+      shell: sh
+      run: echo "Waiting for resource indexing..."; sleep 30
+      continueOnError: false
+    windows:
+      shell: pwsh
+      run: Write-Host "Waiting for resource indexing..."; Start-Sleep -Seconds 30
+      continueOnError: false
+
 services:
   web:
     project: SamplesAndTest/album-viewer
