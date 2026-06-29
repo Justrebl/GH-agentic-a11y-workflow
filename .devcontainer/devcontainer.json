@@ -1,0 +1,23 @@
+{
+  "name": "a11y-workflow (az / azd / bicep / node)",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "installBicep": true
+    },
+    "ghcr.io/azure/azure-dev/azd:0": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.azure-dev",
+        "ms-azuretools.vscode-bicep",
+        "ms-vscode.azurecli",
+        "Vue.volar"
+      ]
+    }
+  },
+  "postCreateCommand": "az bicep version && azd version && gh --version && node --version",
+  "remoteUser": "node"
+}

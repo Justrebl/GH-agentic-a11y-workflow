@@ -6,45 +6,6 @@ The app is a Vue.js / TypeScript music store that looks perfectly functional vis
 
 ---
 
-## Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18 or later)
-- [npm](https://www.npmjs.com/)
-- A GitHub account with access to [GitHub Copilot](https://github.com/features/copilot)
-
-## Run the App Locally
-
-```bash
-cd SamplesAndTest/album-viewer
-npm install
-npm run dev
-```
-
-The app starts on `http://localhost:5173` by default (Vite dev server).
-
-## Deploy the Demo App to Azure
-
-The repo includes Bicep infrastructure (`IaC/`) and an `azure.yaml` for one-command deployment with the [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/).
-
-```bash
-azd auth login
-azd up
-```
-
-`azd up` provisions a **Standard** Azure Static Web App and deploys the built Vue app (`dist`). Pass `AZURE_ENV_NAME` and `AZURE_LOCATION` to control the environment name and region.
-
-### Set up CI/CD with GitHub Actions
-
-To deploy automatically on every push, let `azd` wire up the GitHub repo for you. It creates the deployment secrets/federated credentials and the workflow — no manual secret copying:
-
-```bash
-azd pipeline config
-```
-
-This configures the required GitHub Actions secrets (including the Static Web App deployment token) directly in the repo, so subsequent pushes build and deploy without manual setup. The deployment token is never committed to source — `azd` reads it from the provisioned SWA and stores it as a repo secret.
-
----
-
 ## Repository Structure
 
 ```
@@ -110,6 +71,21 @@ The app contains 21 intentional violations across 4 areas:
 
 If you fork this repo, you need to configure a **GitHub App** and a **Copilot token** for the agentic workflows to run.
 
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [npm](https://www.npmjs.com/)
+- A GitHub account with access to [GitHub Copilot](https://github.com/features/copilot)
+- [GitHub CLI](https://cli.github.com/) (`gh`) — required for deployment, which sets the Static Web App token as a repo secret
+- [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/) (`azd`)
+
+> **Authenticate before deploying.** The `azd up` provisioning hook pushes the Static Web App deployment token to GitHub via `gh secret set`, so you must be logged in to the GitHub CLI first:
+>
+> ```bash
+> gh auth login
+> gh auth status   # verify you are authenticated
+> ```
+
 ### 1. Create a GitHub App
 
 1. Go to **Settings → Developer settings → GitHub Apps → New GitHub App**
@@ -124,10 +100,7 @@ If you fork this repo, you need to configure a **GitHub App** and a **Copilot to
    | **Contents** | Read | Read source files during audit |
    | **Issues** | Read & Write | Create issues for findings |
    | **Pull requests** | Read & Write | Post review comments on PRs |
-   | **Discussions** | Read & Write | Required by the `safe-outputs` token minted by `gh-aw` |
    | **Metadata** | Read | Required by default |
-
-   > **Why Discussions?** Even though this workflow only posts comments and creates issues, `gh-aw` mints the `safe-outputs` GitHub App token with `discussions: write`. If the App is missing this permission, every run fails with *"The permissions requested are not granted to this installation"* and a follow-up *"Input required and not supplied: github-token"* error. Granting **Discussions: Read & Write** resolves both.
 
 4. Click **Create GitHub App**
 5. Note the **App ID** displayed on the app's settings page
@@ -194,6 +167,27 @@ The agentic workflows use **GitHub Copilot** as the default AI engine. This requ
 > | Anthropic (Claude) | `ANTHROPIC_API_KEY` | [gh-aw auth docs](https://github.github.com/gh-aw/reference/auth/) |
 > | OpenAI (Codex) | `OPENAI_API_KEY` | [gh-aw auth docs](https://github.github.com/gh-aw/reference/auth/) |
 
+#### Scanner secrets (set before deploying)
+
+The [accessibility scanner](https://github.com/github/accessibility-scanner#2-create-a-token-and-add-a-secret) that runs on PR previews requires a **fine-grained PAT** as a repository secret — GitHub Actions' default `GITHUB_TOKEN` cannot be used. Create the token with these repository permissions:
+
+| Permission | Access |
+|-----------|--------|
+| **Actions** | Read & write |
+| **Contents** | Read & write |
+| **Issues** | Read & write |
+| **Pull requests** | Read & write |
+| **Metadata** | Read |
+
+> **Scope**: grant the token access to the target repository (where issues and PRs are created) and the repository containing the workflow. See [Creating a fine-grained PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
+
+Set both secrets up front — `azd up` only sets `AZURE_STATIC_WEB_APPS`, and a pre-provision hook fails fast if these are missing:
+
+```bash
+gh secret set ACCESSIBILITY_GH_TOKEN   # used by the PR preview scan
+gh secret set COPILOT_GITHUB_TOKEN     # used by the scheduled audit + Copilot fixes
+```
+
 ### 5. Compile the Agentic Workflows
 
 After forking and configuring secrets, compile the lock files:
@@ -204,6 +198,31 @@ gh aw compile
 ```
 
 The `.lock.yml` files are already committed in this repo. You only need to recompile if you modify the `.md` workflow files.
+
+### 6. Run the App Locally
+
+```bash
+cd SamplesAndTest/album-viewer
+npm install
+npm run dev
+```
+
+The app starts on `http://localhost:5173` by default (Vite dev server).
+
+### 7. Deploy the Demo App to Azure
+
+The repo includes Bicep infrastructure (`IaC/`) and an `azure.yaml` for one-command deployment with the [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/).
+
+> Authenticate all three CLIs first. The post-provision hook calls `az` to read the SWA deployment token and `gh` to store it as the `AZURE_STATIC_WEB_APPS` repo secret used by the PR preview deploys. The scanner PAT secrets (`ACCESSIBILITY_GH_TOKEN`, `COPILOT_GITHUB_TOKEN`) must already be set — see [Copilot as the AI Engine](#4-copilot-as-the-ai-engine).
+
+```bash
+gh auth login
+az login
+azd auth login
+azd up
+```
+
+`azd up` provisions a **Standard** Azure Static Web App, deploys the built Vue app (`dist`), and sets the `AZURE_STATIC_WEB_APPS` GitHub secret so `feat/*` PR previews work. Pass `AZURE_ENV_NAME` and `AZURE_LOCATION` to control the environment name and region. The deployment token is never committed to source.
 
 ### Quick Checklist
 

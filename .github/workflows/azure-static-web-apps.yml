@@ -11,11 +11,12 @@ on:
 
 jobs:
   build_and_deploy_job:
+    # Production is deployed locally with `azd up`. This job only runs for feat/* PRs
+    # to publish a preview environment that the accessibility scanner then scans.
     if: |
-      github.event_name == 'push'
-      || (github.event_name == 'pull_request'
-          && github.event.action != 'closed'
-          && startsWith(github.head_ref, 'feat/'))
+      github.event_name == 'pull_request'
+      && github.event.action != 'closed'
+      && startsWith(github.head_ref, 'feat/')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
@@ -27,29 +28,22 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WITTY_GRASS_0AE58DF03 }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          # Named preview environment per pull request (e.g. "pr-12").
-          # Empty on pushes to main, so those deploy to the production environment.
           deployment_environment: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || '' }}
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "./SamplesAndTest/album-viewer" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "dist" # Built app content directory - optional
-          ###### End of Repository/Build Configurations ######
+          app_location: "./SamplesAndTest/album-viewer"
+          api_location: ""
+          output_location: "dist"
 
       - name: Run Accessibility Scanner
         id: a11y_scan
         uses: github/accessibility-scanner@v3
         with:
-          # Scan the site that was just deployed:
-          #   - push to main -> production URL
-          #   - pull request  -> that PR's preview/staging URL
+          # PR job scans the preview environment that was just deployed.
           urls: ${{ steps.builddeploy.outputs.static_web_app_url }}
           # Repository where accessibility issues are filed and where Copilot opens fix PRs
-          repository: Justrebl/GH-agentic-a11y-workflow
+          repository: ${{ github.repository }}
           # Fine-grained PAT with write access to contents/issues/pull-requests/actions + metadata read.
           # NOTE: the default GITHUB_TOKEN cannot be used here.
           token: ${{ secrets.ACCESSIBILITY_GH_TOKEN }}
@@ -111,5 +105,5 @@ jobs:
         id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WITTY_GRASS_0AE58DF03 }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS }}
           action: "close"

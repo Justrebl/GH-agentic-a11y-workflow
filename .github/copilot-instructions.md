@@ -23,10 +23,10 @@ The `fix(a11y):` prefix is **load-bearing**, not just a convention:
 
 - It identifies the PR as an automated accessibility remediation.
 - The **Azure Static Web Apps CI/CD** workflow
-  (`.github/workflows/azure-static-web-apps-witty-grass-0ae58df03.yml`) is configured to
-  **skip its build, deploy, and accessibility-scan job** for any pull request whose title
-  starts with `fix(a11y):`.
-- This skip **prevents an infinite loop**: without it, deploying an a11y fix PR would run
+  (`.github/workflows/azure-static-web-apps.yml`) only builds, deploys, and scans pull
+  requests opened from `feat/*` branches. Accessibility fix PRs branch from `fix/*`, so
+  they never trigger a preview deploy or scan.
+- This **prevents an infinite loop**: without it, deploying an a11y fix PR would run
   the accessibility scanner again, which could file new issues and open new fix PRs,
   which would deploy and scan again, and so on.
 

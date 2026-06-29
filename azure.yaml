@@ -9,15 +9,54 @@ infra:
   module: main
 
 hooks:
+  preprovision:
+    posix:
+      shell: sh
+      continueOnError: false
+      run: |
+        echo "Checking required GitHub secrets for the accessibility scanner..."
+        SECRETS=$(gh secret list --json name -q '.[].name' 2>/dev/null || gh secret list | awk '{print $1}')
+        MISSING=""
+        for s in ACCESSIBILITY_GH_TOKEN COPILOT_GITHUB_TOKEN; do
+          printf '%s\n' "$SECRETS" | grep -qx "$s" || MISSING="$MISSING $s"
+        done
+        if [ -n "$MISSING" ]; then
+          echo "ERROR: Missing repo secret(s):$MISSING" >&2
+          echo "Create a fine-grained PAT (actions:write, contents:write, issues:write, pull-requests:write, metadata:read) and set them:" >&2
+          echo "  gh secret set ACCESSIBILITY_GH_TOKEN" >&2
+          echo "  gh secret set COPILOT_GITHUB_TOKEN" >&2
+          exit 1
+        fi
+        echo "Required scanner secrets are present."
+    windows:
+      shell: pwsh
+      continueOnError: false
+      run: |
+        Write-Host "Checking required GitHub secrets for the accessibility scanner..."
+        $secrets = gh secret list --json name -q '.[].name'
+        $missing = @('ACCESSIBILITY_GH_TOKEN','COPILOT_GITHUB_TOKEN') | Where-Object { $secrets -notcontains $_ }
+        if ($missing) {
+          Write-Error "Missing repo secret(s): $($missing -join ', '). Create a fine-grained PAT (actions:write, contents:write, issues:write, pull-requests:write, metadata:read) then run: gh secret set ACCESSIBILITY_GH_TOKEN ; gh secret set COPILOT_GITHUB_TOKEN"
+          exit 1
+        }
+        Write-Host "Required scanner secrets are present."
   postprovision:
     posix:
       shell: sh
-      run: echo "Waiting for resource indexing..."; sleep 30
       continueOnError: false
+      run: |
+        echo "Waiting for resource indexing..."; sleep 30
+        TOKEN=$(az staticwebapp secrets list --name "$WEB_NAME" -g "$AZURE_RESOURCE_GROUP" --query "properties.apiKey" -o tsv)
+        printf '%s' "$TOKEN" | gh secret set AZURE_STATIC_WEB_APPS
+        echo "Set GitHub secret AZURE_STATIC_WEB_APPS for SWA $WEB_NAME"
     windows:
       shell: pwsh
-      run: Write-Host "Waiting for resource indexing..."; Start-Sleep -Seconds 30
       continueOnError: false
+      run: |
+        Write-Host "Waiting for resource indexing..."; Start-Sleep -Seconds 30
+        $token = az staticwebapp secrets list --name $env:WEB_NAME -g $env:AZURE_RESOURCE_GROUP --query "properties.apiKey" -o tsv
+        $token | gh secret set AZURE_STATIC_WEB_APPS
+        Write-Host "Set GitHub secret AZURE_STATIC_WEB_APPS for SWA $env:WEB_NAME"
 
 services:
   web:
