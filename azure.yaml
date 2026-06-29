@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+name: album-viewer
+metadata:
+  template: album-viewer-swa@1.0.0
+
+infra:
+  provider: bicep
+  path: IaC
+  module: main
+
+services:
+  web:
+    project: SamplesAndTest/album-viewer
+    language: ts
+    host: staticwebapp
+    dist: dist

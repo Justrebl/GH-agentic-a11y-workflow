@@ -22,6 +22,27 @@ npm run dev
 
 The app starts on `http://localhost:5173` by default (Vite dev server).
 
+## Deploy the Demo App to Azure
+
+The repo includes Bicep infrastructure (`IaC/`) and an `azure.yaml` for one-command deployment with the [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/).
+
+```bash
+azd auth login
+azd up
+```
+
+`azd up` provisions a **Standard** Azure Static Web App and deploys the built Vue app (`dist`). Pass `AZURE_ENV_NAME` and `AZURE_LOCATION` to control the environment name and region.
+
+### Set up CI/CD with GitHub Actions
+
+To deploy automatically on every push, let `azd` wire up the GitHub repo for you. It creates the deployment secrets/federated credentials and the workflow — no manual secret copying:
+
+```bash
+azd pipeline config
+```
+
+This configures the required GitHub Actions secrets (including the Static Web App deployment token) directly in the repo, so subsequent pushes build and deploy without manual setup. The deployment token is never committed to source — `azd` reads it from the provisioned SWA and stores it as a repo secret.
+
 ---
 
 ## Repository Structure
